@@ -8,7 +8,7 @@ public class Bonnie extends Animatronic {
             return;
         }
 
-        timeToNextMove = now + randomDelay(3000, 6000);
+        timeToNextMove = now + randomDelay(10000, 20000);
         double chance = Math.random();
 
         switch (position) {
@@ -30,6 +30,9 @@ public class Bonnie extends Animatronic {
             case OFFICE:
                 if (GamePanel.leftDoorClosed) {
                     position = Position.SCENE;
+                }
+                else {
+                    position = Position.JUMPSCARE;
                 }
                 break;
         }

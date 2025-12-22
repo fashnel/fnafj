@@ -3,14 +3,14 @@ package entity;
 import main.GamePanel;
 
 public class Freddy extends Animatronic {
-    static final double CHANCE = 0.6;
+    static final double CHANCE = 0.3;
 
     public void update(long now) {
         if (now < timeToNextMove) {
             return;
         }
 
-        timeToNextMove = now + randomDelay(10000, 15000);
+        timeToNextMove = now + randomDelay(5000, 10000);
         double chance = Math.random();
 
         switch (position) {
@@ -37,6 +37,9 @@ public class Freddy extends Animatronic {
             case OFFICE:
                 if (GamePanel.rightDoorClosed) {
                     position = Position.SCENE;
+                }
+                else {
+                    position = Position.JUMPSCARE;
                 }
                 break;
         }

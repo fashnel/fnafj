@@ -144,5 +144,6 @@ public class GamePanel extends JPanel implements Runnable {
         else {
             Draw.office(g2);
         }
+        Draw.jumpscares(g2);
     }
 }

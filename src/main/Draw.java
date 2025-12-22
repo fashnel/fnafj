@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 public class Draw {
     public static final int SCREEN_WIDTH = GamePanel.SCREEN_WIDTH,
@@ -18,7 +19,8 @@ public class Draw {
             sceneImage, hallImage, leftHallImage, rightHallImage, staffOnlyImage,
             freddyOnScene, freddyInOffice, freddyInHall, freddyInRightHall, freddyInStaffOnly,
             bonnieOnScene, bonnieInOffice, bonnieInHall, bonnieInLeftHall,
-            cam1, cam2, cam3, cam4, cam5, cam6;
+            cam1, cam2, cam3, cam4, cam5, cam6,
+            jumpscareFreddy, jumpscareBonnie;
 
     static public void cameras(Graphics2D g2) {
         if (GamePanel.scene) {
@@ -94,6 +96,8 @@ public class Draw {
             cam4 = ImageIO.read(new File("assets\\cameras\\cam4.PNG"));
             cam5 = ImageIO.read(new File("assets\\cameras\\cam5.PNG"));
             cam6 = ImageIO.read(new File("assets\\cameras\\cam6.PNG"));
+            jumpscareFreddy = ImageIO.read(new File("assets\\freddy\\jumpscare.JPG"));;
+            jumpscareBonnie = ImageIO.read(new File("assets\\bonnie\\jumpscare.JPG"));;
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -133,5 +137,18 @@ public class Draw {
             g2.drawImage(rightDoorOnMap, x, y, 650, 470, null);
         }
         g2.drawImage(cam, x, y, 650, 470, null);
+    }
+
+    static public void jumpscare(Graphics2D g2, Animatronic animatronic, BufferedImage image) {
+        Random rand = new Random();
+        int randInt1 = rand.nextInt(-50, 50);
+        int randInt2 = rand.nextInt(-70, 80);
+        if (animatronic.position == Position.JUMPSCARE) {
+            g2.drawImage(image, 0, 0, SCREEN_WIDTH + 100 + randInt1, SCREEN_HEIGHT + 100 + randInt2, null);
+        }
+    }
+    static public void jumpscares(Graphics2D g2) {
+        jumpscare(g2, GamePanel.bonnie, jumpscareBonnie);
+        jumpscare(g2, GamePanel.freddy, jumpscareFreddy);
     }
 }
