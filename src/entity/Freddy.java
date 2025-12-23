@@ -3,7 +3,7 @@ package entity;
 import main.GamePanel;
 
 public class Freddy extends Animatronic {
-    static final double CHANCE = 0.3;
+    static double CHANCE = 0.3;
 
     public void update(long now) {
         if (now < timeToNextMove) {

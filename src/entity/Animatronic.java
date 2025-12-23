@@ -1,7 +1,7 @@
 package entity;
 
 public class Animatronic {
-    public Position position = Position.RIGHT_HALL;
+    public Position position = Position.SCENE;
     long timeToNextMove;
 
     public long randomDelay(int minMs, int maxMs) {

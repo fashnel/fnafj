@@ -68,6 +68,8 @@ public class GamePanel extends JPanel implements Runnable {
             keyH.tablet = false;
         }
         if (inTablet) {
+            keyH.rightDoor = false;
+            keyH.leftDoor = false;
             // исправить говнокод
             if (keyH.scene) {
                 scene = true;
@@ -124,13 +126,15 @@ public class GamePanel extends JPanel implements Runnable {
             }
         }
 
-        if (keyH.leftDoor) {
-            leftDoorClosed = !leftDoorClosed;
-            keyH.leftDoor = false;
-        }
-        if (keyH.rightDoor) {
-            rightDoorClosed = !rightDoorClosed;
-            keyH.rightDoor = false;
+        else {
+            if (keyH.leftDoor) {
+                leftDoorClosed = !leftDoorClosed;
+                keyH.leftDoor = false;
+            }
+            if (keyH.rightDoor) {
+                rightDoorClosed = !rightDoorClosed;
+                keyH.rightDoor = false;
+            }
         }
     }
 
@@ -144,6 +148,6 @@ public class GamePanel extends JPanel implements Runnable {
         else {
             Draw.office(g2);
         }
-        Draw.jumpscares(g2);
+        Draw.jumpscares(g2, 100);
     }
 }

@@ -14,8 +14,7 @@ public class Draw {
     public static final int SCREEN_WIDTH = GamePanel.SCREEN_WIDTH,
             SCREEN_HEIGHT = GamePanel.SCREEN_HEIGHT;
 
-    static BufferedImage officeImage, leftDoorImage, rightDoorImage,
-            mapImage, leftDoorOnMap, rightDoorOnMap,
+    static BufferedImage officeImage, leftDoorImage, rightDoorImage, mapImage,
             sceneImage, hallImage, leftHallImage, rightHallImage, staffOnlyImage,
             freddyOnScene, freddyInOffice, freddyInHall, freddyInRightHall, freddyInStaffOnly,
             bonnieOnScene, bonnieInOffice, bonnieInHall, bonnieInLeftHall,
@@ -88,8 +87,6 @@ public class Draw {
             freddyInRightHall = ImageIO.read(new File("assets\\freddy\\rightHall.PNG"));
             bonnieInLeftHall = ImageIO.read(new File("assets\\bonnie\\leftHall.PNG"));
             freddyInStaffOnly = ImageIO.read(new File("assets\\freddy\\staffOnly.PNG"));
-            leftDoorOnMap = ImageIO.read(new File("assets\\cameras\\leftDoorOnMap.PNG"));;
-            rightDoorOnMap = ImageIO.read(new File("assets\\cameras\\rightDoorOnMap.PNG"));;
             cam1 = ImageIO.read(new File("assets\\cameras\\cam1.PNG"));
             cam2 = ImageIO.read(new File("assets\\cameras\\cam2.PNG"));
             cam3 = ImageIO.read(new File("assets\\cameras\\cam3.PNG"));
@@ -130,25 +127,20 @@ public class Draw {
     static public void drawMap(Graphics2D g2, BufferedImage cam) {
         int x = -90, y = 460;
         g2.drawImage(mapImage, x, y, 650, 470, null);
-        if (GamePanel.leftDoorClosed) {
-            g2.drawImage(leftDoorOnMap, x, y, 650, 470, null);
-        }
-        if (GamePanel.rightDoorClosed) {
-            g2.drawImage(rightDoorOnMap, x, y, 650, 470, null);
-        }
         g2.drawImage(cam, x, y, 650, 470, null);
     }
 
-    static public void jumpscare(Graphics2D g2, Animatronic animatronic, BufferedImage image) {
-        Random rand = new Random();
-        int randInt1 = rand.nextInt(-50, 50);
-        int randInt2 = rand.nextInt(-70, 80);
+    static public void jumpscare(Graphics2D g2, Animatronic animatronic, BufferedImage image, int value) {
         if (animatronic.position == Position.JUMPSCARE) {
-            g2.drawImage(image, 0, 0, SCREEN_WIDTH + 100 + randInt1, SCREEN_HEIGHT + 100 + randInt2, null);
+            Random rand = new Random();
+            int randInt1 = rand.nextInt(-value, value);
+            int randInt2 = rand.nextInt(-value, value);
+            int startPoint = rand.nextInt(-value, 0);
+            g2.drawImage(image, startPoint, startPoint, SCREEN_WIDTH + value * 3 + randInt1, SCREEN_HEIGHT + value * 2 + randInt2, null);
         }
     }
-    static public void jumpscares(Graphics2D g2) {
-        jumpscare(g2, GamePanel.bonnie, jumpscareBonnie);
-        jumpscare(g2, GamePanel.freddy, jumpscareFreddy);
+    static public void jumpscares(Graphics2D g2, int value) {
+        jumpscare(g2, GamePanel.bonnie, jumpscareBonnie, value - 70);
+        jumpscare(g2, GamePanel.freddy, jumpscareFreddy, value);
     }
 }
