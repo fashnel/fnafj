@@ -15,8 +15,8 @@ public class Draw {
             SCREEN_HEIGHT = GamePanel.SCREEN_HEIGHT;
 
     static BufferedImage officeImage, leftDoorImage, rightDoorImage, mapImage,
-            sceneImage, hallImage, leftHallImage, rightHallImage, staffOnlyImage,
-            freddyOnScene, freddyInOffice, freddyInHall, freddyInRightHall, freddyInStaffOnly,
+            sceneImage, hallImage, waterClosetImage, leftHallImage, rightHallImage, staffOnlyImage,
+            freddyOnScene, freddyInOffice, freddyInHall, freddyInRightHall, freddyInStaffOnly, freddyInWaterCloset,
             bonnieOnScene, bonnieInOffice, bonnieInHall, bonnieInLeftHall,
             cam1, cam2, cam3, cam4, cam5, cam6,
             jumpscareFreddy, jumpscareBonnie;
@@ -41,9 +41,9 @@ public class Draw {
             drawMap(g2, cam3);
         }
         else if (GamePanel.waterCloset) {
-//                g2.drawImage(waterClosetImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-//
-//                drawAnimatronic(g2, freddyInWaterCloset, freddy, Position.WATER_CLOSET);
+            g2.drawImage(waterClosetImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+
+            drawAnimatronic(g2, freddyInWaterCloset, GamePanel.freddy, Position.WATER_CLOSET);
             drawMap(g2, cam4);
         }
         else if (GamePanel.leftHall) {
@@ -75,6 +75,7 @@ public class Draw {
             mapImage = ImageIO.read(new File("assets\\cameras\\map.PNG"));
             sceneImage = ImageIO.read(new File("assets\\cameras\\scene.JPG"));
             hallImage = ImageIO.read(new File("assets\\cameras\\hall.JPG"));
+            waterClosetImage = ImageIO.read(new File("assets\\cameras\\waterCloset.JPG"));
             leftHallImage = ImageIO.read(new File("assets\\cameras\\leftHall.JPG"));
             rightHallImage = ImageIO.read(new File("assets\\cameras\\rightHall.JPG"));
             staffOnlyImage = ImageIO.read(new File("assets\\cameras\\staffOnly.JPG"));
@@ -87,6 +88,7 @@ public class Draw {
             freddyInRightHall = ImageIO.read(new File("assets\\freddy\\rightHall.PNG"));
             bonnieInLeftHall = ImageIO.read(new File("assets\\bonnie\\leftHall.PNG"));
             freddyInStaffOnly = ImageIO.read(new File("assets\\freddy\\staffOnly.PNG"));
+            freddyInWaterCloset = ImageIO.read(new File("assets\\freddy\\waterCloset.PNG"));
             cam1 = ImageIO.read(new File("assets\\cameras\\cam1.PNG"));
             cam2 = ImageIO.read(new File("assets\\cameras\\cam2.PNG"));
             cam3 = ImageIO.read(new File("assets\\cameras\\cam3.PNG"));

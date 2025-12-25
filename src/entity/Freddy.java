@@ -12,21 +12,17 @@ public class Freddy extends Animatronic {
 
         timeToNextMove = now + randomDelay(5000, 10000);
         double chance = Math.random();
+        Position previousPosition;
 
         switch (position) {
-            case SCENE:
+            case SCENE, STAFF_ONLY, HALL, WATER_CLOSET:
+                System.out.println(chance);
                 if (chance < CHANCE) {
-                    position = Position.STAFF_ONLY;
-                }
-                break;
-            case STAFF_ONLY:
-                if (chance < CHANCE) {
-                    position = Position.HALL;
-                }
-                break;
-            case HALL:
-                if (chance < CHANCE) {
-                    position = Position.RIGHT_HALL;
+                    previousPosition = position;
+                    while (previousPosition == position){
+                        position = Position.random();
+                    }
+                    System.out.println(position);
                 }
                 break;
             case RIGHT_HALL:
