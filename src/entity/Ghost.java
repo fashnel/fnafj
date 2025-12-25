@@ -9,24 +9,37 @@ public class Ghost extends Animatronic {
         if (now < timeToNextMove) {
             return;
         }
-        timeToNextMove = now + randomDelay(2000, 3000);
+        if (timeToNextMove != 1)  {
+            timeToNextMove = now + randomDelay(2000, 3000);
+        }
         double chance = Math.random();
 
         switch (position) {
             case SCENE:
                 if (chance < CHANCE && GamePanel.inTablet) {
                     position = Position.OFFICE;
-                    System.out.println("пришел");
+                    timeToNextMove = 1;
                 }
                 break;
             case OFFICE:
                 if (GamePanel.inTablet) {
-                    System.out.println("ушел");
-                    position = Position.SCENE;
+                    if (playerSeenGhost) {
+                        playerSeenGhost = false;
+                        position = Position.SCENE;
+                    }
+                    else {
+                        timeToNextMove = 1;
+                    }
                 }
                 else {
-                    System.out.println("напугал");
-                    position = Position.JUMPSCARE;
+                    if (timeToNextMove == 1) {
+                        playerSeenGhost = true;
+                        timeToNextMove = now + 1300;
+                    }
+                    else {
+                        position = Position.JUMPSCARE;
+                    }
+
                 }
                 break;
             case JUMPSCARE:

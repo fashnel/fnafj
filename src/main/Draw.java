@@ -99,7 +99,8 @@ public class Draw {
             cam5 = ImageIO.read(new File("assets\\cameras\\cam5.PNG"));
             cam6 = ImageIO.read(new File("assets\\cameras\\cam6.PNG"));
             jumpscareFreddy = ImageIO.read(new File("assets\\freddy\\jumpscare.JPG"));;
-            jumpscareBonnie = ImageIO.read(new File("assets\\bonnie\\jumpscare.JPG"));;
+            jumpscareBonnie = ImageIO.read(new File("assets\\bonnie\\jumpscare.JPG"));
+            jumpscareGhost = ImageIO.read(new File("assets\\ghost\\jumpscare.PNG"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -138,20 +139,15 @@ public class Draw {
     static public void jumpscare(Graphics2D g2, Animatronic animatronic, BufferedImage image, int value) {
         if (animatronic.position == Position.JUMPSCARE) {
             Random rand = new Random();
-            if (value == 0) {
-                g2.drawImage(image, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-            }
-            else {
-                int randInt1 = rand.nextInt(-value, value);
-                int randInt2 = rand.nextInt(-value, value);
-                int startPoint = rand.nextInt(-value, 0);
-                g2.drawImage(image, startPoint, startPoint, SCREEN_WIDTH + value * 3 + randInt1, SCREEN_HEIGHT + value * 2 + randInt2, null);
-            }
+            int randInt1 = rand.nextInt(-value, value);
+            int randInt2 = rand.nextInt(-value, value);
+            int startPoint = rand.nextInt(-value, 0);
+            g2.drawImage(image, startPoint, startPoint, SCREEN_WIDTH + value * 3 + randInt1, SCREEN_HEIGHT + value * 2 + randInt2, null);
         }
     }
     static public void jumpscares(Graphics2D g2, int value) {
         jumpscare(g2, GamePanel.bonnie, jumpscareBonnie, value - 70);
         jumpscare(g2, GamePanel.freddy, jumpscareFreddy, value);
-        jumpscare(g2, GamePanel.ghost, jumpscareFreddy, 0);
+        jumpscare(g2, GamePanel.ghost, jumpscareGhost, value - 95);
     }
 }

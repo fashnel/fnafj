@@ -9,8 +9,9 @@ public class Bonnie extends Animatronic {
         if (now < timeToNextMove) {
             return;
         }
-
-        timeToNextMove = now + randomDelay(3000, 5000);
+        if (timeToNextMove != 1)  {
+            timeToNextMove = now + randomDelay(3000, 5000);
+        }
         double chance = Math.random();
 
         switch (position) {
@@ -22,11 +23,14 @@ public class Bonnie extends Animatronic {
             case HALL:
                 if (chance < CHANCE) {
                     position = Position.LEFT_HALL;
+                    timeToNextMove = now + 2000;
                 }
                 break;
             case LEFT_HALL:
-                if (chance < CHANCE) {
+                timeToNextMove = 1;
+                if (GamePanel.inTablet) {
                     position = Position.OFFICE;
+                    timeToNextMove = now + randomDelay(3000, 5000);
                 }
                 break;
             case OFFICE:
