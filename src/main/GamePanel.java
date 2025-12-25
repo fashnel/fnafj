@@ -14,6 +14,7 @@ public class GamePanel extends JPanel implements Runnable {
     KeyHandler keyH = new KeyHandler();
     public static Bonnie bonnie = new Bonnie();
     public static Freddy freddy = new Freddy();
+    public static Ghost ghost = new Ghost();
 
     public static boolean leftDoorClosed = false, rightDoorClosed = false, inTablet,
             scene = true, staffOnly, hall,
@@ -62,6 +63,7 @@ public class GamePanel extends JPanel implements Runnable {
         long now = System.currentTimeMillis();
         bonnie.update(now);
         freddy.update(now);
+        ghost.update(now);
 
         if (keyH.tablet) {
             inTablet = !inTablet;

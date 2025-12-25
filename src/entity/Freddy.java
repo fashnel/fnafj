@@ -16,13 +16,11 @@ public class Freddy extends Animatronic {
 
         switch (position) {
             case SCENE, STAFF_ONLY, HALL, WATER_CLOSET:
-                System.out.println(chance);
                 if (chance < CHANCE) {
                     previousPosition = position;
                     while (previousPosition == position){
                         position = Position.random();
                     }
-                    System.out.println(position);
                 }
                 break;
             case RIGHT_HALL:
