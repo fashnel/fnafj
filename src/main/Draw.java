@@ -150,4 +150,10 @@ public class Draw {
         jumpscare(g2, GamePanel.freddy, jumpscareFreddy, value);
         jumpscare(g2, GamePanel.ghost, jumpscareGhost, value - 95);
     }
+
+    static public void time(Graphics2D g2, String string) {
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("Consolas", Font.PLAIN, 70));
+        g2.drawString(string, 1200, 82);
+    }
 }

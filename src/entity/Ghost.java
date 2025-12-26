@@ -4,6 +4,7 @@ import main.GamePanel;
 
 public class Ghost extends Animatronic {
     static final double CHANCE = 0.07;
+    boolean playerSeenGhost = false;
 
     public void update(long now) {
         if (now < timeToNextMove) {

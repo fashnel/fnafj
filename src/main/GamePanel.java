@@ -15,6 +15,8 @@ public class GamePanel extends JPanel implements Runnable {
     public static Bonnie bonnie = new Bonnie();
     public static Freddy freddy = new Freddy();
     public static Ghost ghost = new Ghost();
+    public static Office office = new Office();
+    String time;
 
     public static boolean leftDoorClosed = false, rightDoorClosed = false, inTablet,
             scene = true, staffOnly, hall,
@@ -64,6 +66,7 @@ public class GamePanel extends JPanel implements Runnable {
         bonnie.update(now);
         freddy.update(now);
         ghost.update(now);
+        time = office.time(now);
 
         if (keyH.tablet) {
             inTablet = !inTablet;
@@ -150,6 +153,7 @@ public class GamePanel extends JPanel implements Runnable {
         else {
             Draw.office(g2);
         }
+        Draw.time(g2, time);
         Draw.jumpscares(g2, 100);
     }
 }
