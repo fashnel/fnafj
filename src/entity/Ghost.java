@@ -3,13 +3,14 @@ package entity;
 import main.GamePanel;
 
 public class Ghost extends Animatronic {
-    static final double CHANCE = 0.07;
+    double CHANCE = 0.04;
     boolean playerSeenGhost = false;
 
     public void update(long now) {
         if (now < timeToNextMove) {
             return;
         }
+        CHANCE = updateChance(now, CHANCE, 0.03);
         if (timeToNextMove != 1)  {
             timeToNextMove = now + randomDelay(2000, 3000);
         }
@@ -38,14 +39,17 @@ public class Ghost extends Animatronic {
                         timeToNextMove = now + 1300;
                     }
                     else {
+                        if (GamePanel.office.powerPercent < 10) {
+                            GamePanel.office.powerPercent = 0;
+                        }
+                        else {
+                            GamePanel.office.powerPercent -= 10;
+                        }
                         position = Position.JUMPSCARE;
                     }
-
                 }
                 break;
             case JUMPSCARE:
-                //timeToNextMove = now + randomDelay(2000, 3000);
-                //забирает энергию
                 position = Position.SCENE;
         }
     }

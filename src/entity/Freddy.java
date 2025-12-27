@@ -3,36 +3,38 @@ package entity;
 import main.GamePanel;
 
 public class Freddy extends Animatronic {
-    static double CHANCE = 0.3;
+    double CONST_CHANCE = 0.5,
+            chanceForMove;
 
     public void update(long now) {
         if (now < timeToNextMove) {
             return;
         }
-
+        CONST_CHANCE = updateChance(now, CONST_CHANCE, 0.05);
+        if (GamePanel.tablet.position == position && position != Position.SCENE) {
+            chanceForMove = CONST_CHANCE / 1.5;
+        }
+        else {
+            chanceForMove = CONST_CHANCE;
+        }
         timeToNextMove = now + randomDelay(5000, 10000);
         double chance = Math.random();
-        Position previousPosition;
 
         switch (position) {
             case SCENE, STAFF_ONLY, HALL, WATER_CLOSET:
-                if (chance < CHANCE) {
-                    previousPosition = position;
-                    while (previousPosition == position){
-                        position = Position.random();
-                    }
+                if (chance < chanceForMove) {
+                    position = Position.random();
                 }
                 break;
             case RIGHT_HALL:
-                if (chance < CHANCE) {
+                if (chance < chanceForMove) {
                     position = Position.OFFICE;
                 }
                 break;
             case OFFICE:
                 if (GamePanel.rightDoorClosed) {
                     position = Position.SCENE;
-                }
-                else {
+                } else {
                     position = Position.JUMPSCARE;
                 }
                 break;

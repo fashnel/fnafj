@@ -5,9 +5,8 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
     public boolean leftDoor, rightDoor;
-    public boolean leftHall, rightHall;
-    public boolean tablet, scene, waterCloset, staffOnly, hall;
-    public boolean windBox;
+    public boolean tablet, scene, waterCloset, staffOnly,
+            hall, leftHall, rightHall;;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -17,9 +16,6 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if (code == KeyEvent.VK_W) {
-            windBox = true;
-        }
         scene = code == KeyEvent.VK_1;
         hall = code == KeyEvent.VK_3;
         leftHall = code == KeyEvent.VK_5;
@@ -40,10 +36,6 @@ public class KeyHandler implements KeyListener {
         }
         if (code == KeyEvent.VK_E) {
             rightDoor = true;
-        }
-
-        if (code == KeyEvent.VK_W) {
-            windBox = false;
         }
     }
 }

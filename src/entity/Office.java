@@ -1,22 +1,42 @@
 package entity;
 
+import main.GamePanel;
+
 public class Office {
-    long timeToNextHour;
-    int numberHour = 11;
-    String AmPm = " PM", outHour = "";
+    long timeToNextHour, timeToNextPowerUsage;
+    int numberHour = 11,
+            powerPercent = 101, timeToNextUsageInSeconds;
+    String outHour = "", hour, AmPm = "PM";
 
     public String time(long now) {
         if (now < timeToNextHour) {
             return outHour;
         }
-        timeToNextHour = now + 20000;
-        outHour = (numberHour % 12 + 1) + AmPm;
-        AmPm = " AM";
+        timeToNextHour = now + 30000;
+
+        hour = String.format("%3s", numberHour % 12 + 1);
+        outHour = hour + AmPm;
+        AmPm = "AM";
         numberHour++;
         return outHour;
     }
-    /*
-    Прописать время ~ 2 минуты игра длится
-    Добавить энергию
-     */
+
+    public int power(long now) {
+        timeToNextUsageInSeconds = 3300;
+        if (now < timeToNextPowerUsage) {
+            return powerPercent;
+        }
+        if (GamePanel.leftDoorClosed) {
+            timeToNextUsageInSeconds -= 1000;
+        }
+        if (GamePanel.leftDoorClosed) {
+            timeToNextUsageInSeconds -= 1000;
+        }
+        if (GamePanel.inTablet) {
+            timeToNextUsageInSeconds -= 1000;
+        }
+        timeToNextPowerUsage = now + timeToNextUsageInSeconds;
+        powerPercent--;
+        return powerPercent;
+    }
 }

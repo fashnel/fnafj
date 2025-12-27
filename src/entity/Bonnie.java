@@ -3,12 +3,13 @@ package entity;
 import main.GamePanel;
 
 public class Bonnie extends Animatronic {
-    static final double CHANCE = 0.3;
+    double CHANCE = 0.2;
 
     public void update(long now) {
         if (now < timeToNextMove) {
             return;
         }
+        CHANCE = updateChance(now, CHANCE, 0.1);
         if (timeToNextMove != 1)  {
             timeToNextMove = now + randomDelay(3000, 5000);
         }

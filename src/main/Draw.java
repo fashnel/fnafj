@@ -23,37 +23,37 @@ public class Draw {
             jumpscareFreddy, jumpscareBonnie, jumpscareGhost;
 
     static public void cameras(Graphics2D g2) {
-        if (GamePanel.scene) {
+        if (GamePanel.tablet.position == Position.SCENE) {
             g2.drawImage(sceneImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
 
             drawAnimatronics(g2, freddyOnScene, bonnieOnScene, Position.SCENE);
             drawMap(g2, cam1);
         }
-        else if (GamePanel.staffOnly) {
+        else if (GamePanel.tablet.position == Position.STAFF_ONLY) {
             g2.drawImage(staffOnlyImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
 
             drawAnimatronic(g2, freddyInStaffOnly, GamePanel.freddy, Position.STAFF_ONLY);
             drawMap(g2, cam2);
         }
-        else if (GamePanel.hall) {
+        else if (GamePanel.tablet.position == Position.HALL) {
             g2.drawImage(hallImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
 
             drawAnimatronics(g2, freddyInHall, bonnieInHall, Position.HALL);
             drawMap(g2, cam3);
         }
-        else if (GamePanel.waterCloset) {
+        else if (GamePanel.tablet.position == Position.WATER_CLOSET) {
             g2.drawImage(waterClosetImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
 
             drawAnimatronic(g2, freddyInWaterCloset, GamePanel.freddy, Position.WATER_CLOSET);
             drawMap(g2, cam4);
         }
-        else if (GamePanel.leftHall) {
+        else if (GamePanel.tablet.position == Position.LEFT_HALL) {
             g2.drawImage(leftHallImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
 
             drawAnimatronic(g2, bonnieInLeftHall, GamePanel.bonnie, Position.LEFT_HALL);
             drawMap(g2, cam5);
         }
-        else if (GamePanel.rightHall) {
+        else if (GamePanel.tablet.position == Position.RIGHT_HALL) {
             g2.drawImage(rightHallImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
 
             drawAnimatronic(g2, freddyInRightHall, GamePanel.freddy, Position.RIGHT_HALL);
@@ -139,9 +139,9 @@ public class Draw {
     static public void jumpscare(Graphics2D g2, Animatronic animatronic, BufferedImage image, int value) {
         if (animatronic.position == Position.JUMPSCARE) {
             Random rand = new Random();
-            int randInt1 = rand.nextInt(-value, value);
-            int randInt2 = rand.nextInt(-value, value);
-            int startPoint = rand.nextInt(-value, 0);
+            int randInt1 = rand.nextInt(-value, value),
+                    randInt2 = rand.nextInt(-value, value),
+                    startPoint = rand.nextInt(-value, 0);
             g2.drawImage(image, startPoint, startPoint, SCREEN_WIDTH + value * 3 + randInt1, SCREEN_HEIGHT + value * 2 + randInt2, null);
         }
     }
@@ -153,7 +153,13 @@ public class Draw {
 
     static public void time(Graphics2D g2, String string) {
         g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Consolas", Font.PLAIN, 70));
-        g2.drawString(string, 1200, 82);
+        g2.setFont(new Font("Consolas", Font.BOLD, 70));
+        g2.drawString(string, 1100,58);
+    }
+
+    static public void power(Graphics2D g2, int power) {
+        g2.setColor(Color.WHITE);
+        g2.setFont(new Font("Consolas", Font.BOLD, 70));
+        g2.drawString("Power:" + power + "%", 3, 890);
     }
 }

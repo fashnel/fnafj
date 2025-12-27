@@ -7,7 +7,7 @@ import java.awt.*;
 
 
 public class GamePanel extends JPanel implements Runnable {
-    public static final int SCREEN_WIDTH = 1400, SCREEN_HEIGHT = 900;
+    public static final int SCREEN_WIDTH = 1300, SCREEN_HEIGHT = 900;
     final int FPS = 30;
 
     Thread gameThread;
@@ -16,11 +16,11 @@ public class GamePanel extends JPanel implements Runnable {
     public static Freddy freddy = new Freddy();
     public static Ghost ghost = new Ghost();
     public static Office office = new Office();
-    String time;
+    public static Tablet tablet = new Tablet();
+    String time = "";
+    int power;
 
-    public static boolean leftDoorClosed = false, rightDoorClosed = false, inTablet,
-            scene = true, staffOnly, hall,
-            waterCloset, leftHall, rightHall;
+    public static boolean leftDoorClosed = false, rightDoorClosed = false, inTablet;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -67,6 +67,7 @@ public class GamePanel extends JPanel implements Runnable {
         freddy.update(now);
         ghost.update(now);
         time = office.time(now);
+        power = office.power(now);
 
         if (keyH.tablet) {
             inTablet = !inTablet;
@@ -75,62 +76,8 @@ public class GamePanel extends JPanel implements Runnable {
         if (inTablet) {
             keyH.rightDoor = false;
             keyH.leftDoor = false;
-            // исправить говнокод
-            if (keyH.scene) {
-                scene = true;
-                hall = false;
-                staffOnly = false;
-                waterCloset = false;
-                leftHall = false;
-                rightHall = false;
-            }
-
-            else if (keyH.hall) {
-                scene = false;
-                hall = true;
-                staffOnly = false;
-                waterCloset = false;
-                leftHall = false;
-                rightHall = false;
-            }
-
-            else if (keyH.staffOnly) {
-                scene = false;
-                hall = false;
-                staffOnly = true;
-                waterCloset = false;
-                leftHall = false;
-                rightHall = false;
-            }
-
-            else if (keyH.waterCloset) {
-                scene = false;
-                hall = false;
-                staffOnly = false;
-                waterCloset = true;
-                leftHall = false;
-                rightHall = false;
-            }
-
-            else if (keyH.leftHall) {
-                scene = false;
-                hall = false;
-                staffOnly = false;
-                waterCloset = false;
-                leftHall = true;
-                rightHall = false;
-            }
-
-            else if (keyH.rightHall) {
-                scene = false;
-                hall = false;
-                staffOnly = false;
-                waterCloset = false;
-                leftHall = false;
-                rightHall = true;
-            }
+            tablet.update(keyH);
         }
-
         else {
             if (keyH.leftDoor) {
                 leftDoorClosed = !leftDoorClosed;
@@ -152,6 +99,7 @@ public class GamePanel extends JPanel implements Runnable {
         }
         else {
             Draw.office(g2);
+            Draw.power(g2, power);
         }
         Draw.time(g2, time);
         Draw.jumpscares(g2, 100);
