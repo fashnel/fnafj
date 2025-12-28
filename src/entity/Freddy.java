@@ -14,12 +14,12 @@ public class Freddy extends Animatronic {
         }
         CONST_CHANCE = updateChanceEveryHour(now, CONST_CHANCE, 0.1);
         if (GamePanel.tablet.position == position && position != Position.SCENE) {
-            chanceForMove = CONST_CHANCE / 1.5;
+            chanceForMove = CONST_CHANCE / 2;
             timeToNextMove = now + randomDelay(4000, 6000);
         }
         else {
             chanceForMove = CONST_CHANCE;
-            timeToNextMove = now + randomDelay(1000, 2000);
+            timeToNextMove = now + randomDelay(500, 1000);
         }
         chance = Math.random();
 
@@ -40,6 +40,7 @@ public class Freddy extends Animatronic {
                         GamePanel.bonnie.position == Position.JUMPSCARE) {
                     position = Position.random();
                 } else {
+                    timeToNextMove = now + randomDelay(3000, 5000);
                     position = Position.JUMPSCARE;
                 }
                 break;

@@ -43,6 +43,7 @@ public class Bonnie extends Animatronic {
                     position = Position.SCENE;
                 }
                 else {
+                    timeToNextMove = now + randomDelay(3000, 5000);
                     position = Position.JUMPSCARE;
                 }
                 break;

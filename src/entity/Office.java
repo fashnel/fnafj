@@ -23,7 +23,7 @@ public class Office {
     }
 
     public int power(long now) {
-        timeToNextUsageInSeconds = 2500;
+        timeToNextUsageInSeconds = 2000;
         minusSeconds = 500;
         if (now < timeToNextPowerUsage) {
             return powerPercent;
