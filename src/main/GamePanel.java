@@ -12,15 +12,17 @@ public class GamePanel extends JPanel implements Runnable {
 
     Thread gameThread;
     KeyHandler keyH = new KeyHandler();
-    public static Bonnie bonnie = new Bonnie();
-    public static Freddy freddy = new Freddy();
-    public static Ghost ghost = new Ghost();
-    public static Office office = new Office();
-    public static Tablet tablet = new Tablet();
-    String time = "";
-    int power;
+    public static Bonnie bonnie;
+    public static Freddy freddy;
+    public static Ghost ghost;
+    public static Office office;
+    public static Tablet tablet;
+    public static GameState gameState = GameState.MENU;
+    public static String time = "";
+    public static int power;
 
-    public static boolean leftDoorClosed = false, rightDoorClosed = false, inTablet;
+    public static boolean inTablet,
+            leftDoorClosed, rightDoorClosed;
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -33,6 +35,46 @@ public class GamePanel extends JPanel implements Runnable {
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
+    }
+
+    public void inputInGame() {
+        if (keyH.tablet) {
+            inTablet = !inTablet;
+            keyH.tablet = false;
+        }
+        if (inTablet) {
+            keyH.rightDoor = false;
+            keyH.leftDoor = false;
+            tablet.update(keyH);
+        }
+        else {
+            if (keyH.leftDoor) {
+                leftDoorClosed = !leftDoorClosed;
+                keyH.leftDoor = false;
+            }
+            if (keyH.rightDoor) {
+                rightDoorClosed = !rightDoorClosed;
+                keyH.rightDoor = false;
+            }
+        }
+        keyH.startGame = false;
+    }
+    public void inputInMenu() {
+        if (keyH.startGame) {
+            startNewGame();
+            gameState = GameState.GAME;
+            keyH.startGame = false;
+            keyH.tablet = false;
+            keyH.leftDoor = false;
+            keyH.rightDoor = false;
+        }
+    }
+
+    public void inputInLoseWinScreen() {
+        if (keyH.startGame) {
+            gameState = GameState.MENU;
+            keyH.startGame = false;
+        }
     }
 
     @Override
@@ -62,46 +104,59 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        long now = System.currentTimeMillis();
-        bonnie.update(now);
-        freddy.update(now);
-        ghost.update(now);
-        time = office.time(now);
-        power = office.power(now);
+        switch (gameState) {
+            case GAME:
+                long now = System.currentTimeMillis();
+                bonnie.update(now);
+                freddy.update(now);
+                ghost.update(now);
+                time = office.time(now);
+                power = office.power(now);
+                inputInGame();
+                if (time.trim().equals("6AM")) {
+                    gameState = GameState.WIN;
+                }
+                if (power == 0) {
+                    gameState = GameState.GAME_OVER;
+                }
+                break;
+            case MENU:
+                inputInMenu();
+                break;
+            case WIN, GAME_OVER:
+                inputInLoseWinScreen();
+                break;
+        }
+    }
 
-        if (keyH.tablet) {
-            inTablet = !inTablet;
-            keyH.tablet = false;
-        }
-        if (inTablet) {
-            keyH.rightDoor = false;
-            keyH.leftDoor = false;
-            tablet.update(keyH);
-        }
-        else {
-            if (keyH.leftDoor) {
-                leftDoorClosed = !leftDoorClosed;
-                keyH.leftDoor = false;
-            }
-            if (keyH.rightDoor) {
-                rightDoorClosed = !rightDoorClosed;
-                keyH.rightDoor = false;
-            }
-        }
+    public void startNewGame() {
+        inTablet = false;
+        leftDoorClosed = false;
+        rightDoorClosed = false;
+        freddy = new Freddy();
+        bonnie = new Bonnie();
+        tablet = new Tablet();
+        ghost = new Ghost();
+        office = new Office();
     }
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
 
-        if (inTablet) {
-            Draw.cameras(g2);
+        switch (gameState) {
+            case GAME:
+                Draw.game(g2);
+                break;
+            case MENU:
+                Draw.menu(g2);
+                break;
+            case GAME_OVER:
+                Draw.lose(g2);
+                break;
+            case WIN:
+                Draw.win(g2);
+                break;
         }
-        else {
-            Draw.office(g2);
-            Draw.power(g2, power);
-        }
-        Draw.time(g2, time);
-        Draw.jumpscares(g2, 100);
     }
 }

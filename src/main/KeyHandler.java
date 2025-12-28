@@ -5,7 +5,7 @@ import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
     public boolean leftDoor, rightDoor;
-    public boolean tablet, scene, waterCloset, staffOnly,
+    public boolean startGame, tablet, scene, waterCloset, staffOnly,
             hall, leftHall, rightHall;;
 
     @Override
@@ -16,6 +16,9 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
+        if (code == KeyEvent.VK_ENTER) {
+            startGame = true;
+        }
         scene = code == KeyEvent.VK_1;
         hall = code == KeyEvent.VK_3;
         leftHall = code == KeyEvent.VK_5;

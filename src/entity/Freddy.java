@@ -1,24 +1,27 @@
 package entity;
 
 import main.GamePanel;
+import main.GameState;
 
 public class Freddy extends Animatronic {
-    double CONST_CHANCE = 0.5,
-            chanceForMove;
+    double CONST_CHANCE = 0.4,
+            chanceForMove,
+            chance;
 
     public void update(long now) {
         if (now < timeToNextMove) {
             return;
         }
-        CONST_CHANCE = updateChance(now, CONST_CHANCE, 0.05);
+        CONST_CHANCE = updateChanceEveryHour(now, CONST_CHANCE, 0.1);
         if (GamePanel.tablet.position == position && position != Position.SCENE) {
             chanceForMove = CONST_CHANCE / 1.5;
+            timeToNextMove = now + randomDelay(4000, 6000);
         }
         else {
             chanceForMove = CONST_CHANCE;
+            timeToNextMove = now + randomDelay(1000, 2000);
         }
-        timeToNextMove = now + randomDelay(5000, 10000);
-        double chance = Math.random();
+        chance = Math.random();
 
         switch (position) {
             case SCENE, STAFF_ONLY, HALL, WATER_CLOSET:
@@ -29,15 +32,20 @@ public class Freddy extends Animatronic {
             case RIGHT_HALL:
                 if (chance < chanceForMove) {
                     position = Position.OFFICE;
+                    timeToNextMove = now + randomDelay(6000, 8000);
                 }
                 break;
             case OFFICE:
-                if (GamePanel.rightDoorClosed) {
-                    position = Position.SCENE;
+                if (GamePanel.rightDoorClosed ||
+                        GamePanel.bonnie.position == Position.JUMPSCARE) {
+                    position = Position.random();
                 } else {
                     position = Position.JUMPSCARE;
                 }
                 break;
+            case JUMPSCARE:
+                GamePanel.gameState = GameState.GAME_OVER;
+                position = Position.SCENE;
         }
     }
 }

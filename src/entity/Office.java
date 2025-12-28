@@ -5,14 +5,15 @@ import main.GamePanel;
 public class Office {
     long timeToNextHour, timeToNextPowerUsage;
     int numberHour = 11,
-            powerPercent = 101, timeToNextUsageInSeconds;
+            powerPercent = 101,
+            timeToNextUsageInSeconds, minusSeconds;
     String outHour = "", hour, AmPm = "PM";
 
     public String time(long now) {
         if (now < timeToNextHour) {
             return outHour;
         }
-        timeToNextHour = now + 30000;
+        timeToNextHour = now + 25000;
 
         hour = String.format("%3s", numberHour % 12 + 1);
         outHour = hour + AmPm;
@@ -22,18 +23,19 @@ public class Office {
     }
 
     public int power(long now) {
-        timeToNextUsageInSeconds = 3300;
+        timeToNextUsageInSeconds = 2500;
+        minusSeconds = 500;
         if (now < timeToNextPowerUsage) {
             return powerPercent;
         }
         if (GamePanel.leftDoorClosed) {
-            timeToNextUsageInSeconds -= 1000;
+            timeToNextUsageInSeconds -= minusSeconds;
         }
         if (GamePanel.leftDoorClosed) {
-            timeToNextUsageInSeconds -= 1000;
+            timeToNextUsageInSeconds -= minusSeconds;
         }
         if (GamePanel.inTablet) {
-            timeToNextUsageInSeconds -= 1000;
+            timeToNextUsageInSeconds -= minusSeconds;
         }
         timeToNextPowerUsage = now + timeToNextUsageInSeconds;
         powerPercent--;

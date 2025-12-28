@@ -1,47 +1,54 @@
 package entity;
 
 import main.GamePanel;
+import main.GameState;
 
 public class Bonnie extends Animatronic {
-    double CHANCE = 0.2;
+    double CONST_CHANCE = 0.1,
+            chanceForMove, chance;
 
     public void update(long now) {
         if (now < timeToNextMove) {
             return;
         }
-        CHANCE = updateChance(now, CHANCE, 0.1);
-        if (timeToNextMove != 1)  {
+        CONST_CHANCE = updateChanceEveryHour(now, CONST_CHANCE, 0.1);
+        if (GamePanel.tablet.position == position) {
+            chanceForMove = CONST_CHANCE * 1.5;
+            timeToNextMove = now + randomDelay(1000, 2000);
+        }
+        else {
+            chanceForMove = CONST_CHANCE;
             timeToNextMove = now + randomDelay(3000, 5000);
         }
-        double chance = Math.random();
-
+        chance = Math.random();
         switch (position) {
             case SCENE:
-                if (chance < CHANCE) {
+                if (chance < chanceForMove) {
                     position = Position.HALL;
                 }
                 break;
             case HALL:
-                if (chance < CHANCE) {
+                if (chance < chanceForMove) {
                     position = Position.LEFT_HALL;
-                    timeToNextMove = now + 2000;
                 }
                 break;
             case LEFT_HALL:
-                timeToNextMove = 1;
-                if (GamePanel.inTablet) {
+                if (chance < chanceForMove) {
                     position = Position.OFFICE;
-                    timeToNextMove = now + randomDelay(3000, 5000);
                 }
                 break;
             case OFFICE:
-                if (GamePanel.leftDoorClosed) {
+                if (GamePanel.leftDoorClosed ||
+                        GamePanel.freddy.position == Position.JUMPSCARE) {
                     position = Position.SCENE;
                 }
                 else {
                     position = Position.JUMPSCARE;
                 }
                 break;
+            case JUMPSCARE:
+                GamePanel.gameState = GameState.GAME_OVER;
+                position = Position.SCENE;
         }
     }
 }

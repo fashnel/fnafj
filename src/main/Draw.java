@@ -13,60 +13,117 @@ import java.util.Random;
 public class Draw {
     public static final int SCREEN_WIDTH = GamePanel.SCREEN_WIDTH,
             SCREEN_HEIGHT = GamePanel.SCREEN_HEIGHT;
+    private static final Random RANDOM = new Random();
 
     static BufferedImage officeImage, leftDoorImage, rightDoorImage, mapImage,
             sceneImage, hallImage, waterClosetImage, leftHallImage, rightHallImage, staffOnlyImage,
-            freddyOnScene, freddyInOffice, freddyInHall, freddyInRightHall, freddyInStaffOnly, freddyInWaterCloset,
-            bonnieOnScene, bonnieInOffice, bonnieInHall, bonnieInLeftHall,
-            ghostInOffice,
+            freddyOnScene, freddyInOffice, freddyInHall, freddyInRightHall,
+            freddyInStaffOnly, freddyInWaterCloset, jumpscareFreddy,
+            bonnieOnScene, bonnieInOffice, bonnieInHall, bonnieInLeftHall, jumpscareBonnie,
+            ghostInOffice, jumpscareGhost,
             cam1, cam2, cam3, cam4, cam5, cam6,
-            jumpscareFreddy, jumpscareBonnie, jumpscareGhost;
+            menuImage, loseImage, winImage;
 
-    static public void cameras(Graphics2D g2) {
-        if (GamePanel.tablet.position == Position.SCENE) {
-            g2.drawImage(sceneImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-
-            drawAnimatronics(g2, freddyOnScene, bonnieOnScene, Position.SCENE);
-            drawMap(g2, cam1);
+    static public void drawCameras(Graphics2D g2) {
+        switch (GamePanel.tablet.position) {
+            case SCENE:
+                g2.drawImage(sceneImage, 0, 0, null);
+                drawAnimatronics(g2, freddyOnScene, bonnieOnScene, Position.SCENE);
+                drawMap(g2, cam1);
+                break;
+            case STAFF_ONLY:
+                g2.drawImage(staffOnlyImage, 0, 0, null);
+                drawAnimatronic(g2, freddyInStaffOnly, GamePanel.freddy, Position.STAFF_ONLY);
+                drawMap(g2, cam2);
+                break;
+            case HALL:
+                g2.drawImage(hallImage, 0, 0, null);
+                drawAnimatronics(g2, freddyInHall, bonnieInHall, Position.HALL);
+                drawMap(g2, cam3);
+                break;
+            case WATER_CLOSET:
+                g2.drawImage(waterClosetImage, 0, 0, null);
+                drawAnimatronic(g2, freddyInWaterCloset, GamePanel.freddy, Position.WATER_CLOSET);
+                drawMap(g2, cam4);
+                break;
+            case LEFT_HALL:
+                g2.drawImage(leftHallImage, 0, 0, null);
+                drawAnimatronic(g2, bonnieInLeftHall, GamePanel.bonnie, Position.LEFT_HALL);
+                drawMap(g2, cam5);
+                break;
+            case RIGHT_HALL:
+                g2.drawImage(rightHallImage, 0, 0, null);
+                drawAnimatronic(g2, freddyInRightHall, GamePanel.freddy, Position.RIGHT_HALL);
+                drawMap(g2, cam6);
+                break;
         }
-        else if (GamePanel.tablet.position == Position.STAFF_ONLY) {
-            g2.drawImage(staffOnlyImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-
-            drawAnimatronic(g2, freddyInStaffOnly, GamePanel.freddy, Position.STAFF_ONLY);
-            drawMap(g2, cam2);
-        }
-        else if (GamePanel.tablet.position == Position.HALL) {
-            g2.drawImage(hallImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-
-            drawAnimatronics(g2, freddyInHall, bonnieInHall, Position.HALL);
-            drawMap(g2, cam3);
-        }
-        else if (GamePanel.tablet.position == Position.WATER_CLOSET) {
-            g2.drawImage(waterClosetImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-
-            drawAnimatronic(g2, freddyInWaterCloset, GamePanel.freddy, Position.WATER_CLOSET);
-            drawMap(g2, cam4);
-        }
-        else if (GamePanel.tablet.position == Position.LEFT_HALL) {
-            g2.drawImage(leftHallImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-
-            drawAnimatronic(g2, bonnieInLeftHall, GamePanel.bonnie, Position.LEFT_HALL);
-            drawMap(g2, cam5);
-        }
-        else if (GamePanel.tablet.position == Position.RIGHT_HALL) {
-            g2.drawImage(rightHallImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-
-            drawAnimatronic(g2, freddyInRightHall, GamePanel.freddy, Position.RIGHT_HALL);
-            drawMap(g2, cam6);
-        }
+//        if (GamePanel.tablet.position == Position.SCENE) {
+//            g2.drawImage(sceneImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+//
+//            drawAnimatronics(g2, freddyOnScene, bonnieOnScene, Position.SCENE);
+//            drawMap(g2, cam1);
+//        }
+//        else if (GamePanel.tablet.position == Position.STAFF_ONLY) {
+//            g2.drawImage(staffOnlyImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+//
+//            drawAnimatronic(g2, freddyInStaffOnly, GamePanel.freddy, Position.STAFF_ONLY);
+//            drawMap(g2, cam2);
+//        }
+//        else if (GamePanel.tablet.position == Position.HALL) {
+//            g2.drawImage(hallImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+//
+//            drawAnimatronics(g2, freddyInHall, bonnieInHall, Position.HALL);
+//            drawMap(g2, cam3);
+//        }
+//        else if (GamePanel.tablet.position == Position.WATER_CLOSET) {
+//            g2.drawImage(waterClosetImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+//
+//            drawAnimatronic(g2, freddyInWaterCloset, GamePanel.freddy, Position.WATER_CLOSET);
+//            drawMap(g2, cam4);
+//        }
+//        else if (GamePanel.tablet.position == Position.LEFT_HALL) {
+//            g2.drawImage(leftHallImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+//
+//            drawAnimatronic(g2, bonnieInLeftHall, GamePanel.bonnie, Position.LEFT_HALL);
+//            drawMap(g2, cam5);
+//        }
+//        else if (GamePanel.tablet.position == Position.RIGHT_HALL) {
+//            g2.drawImage(rightHallImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+//
+//            drawAnimatronic(g2, freddyInRightHall, GamePanel.freddy, Position.RIGHT_HALL);
+//            drawMap(g2, cam6);
+//        }
     }
 
-    static public void office(Graphics2D g2) {
-        g2.drawImage(officeImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
-
+    static public void drawOffice(Graphics2D g2) {
+        g2.drawImage(officeImage, 0, 0, null);
         drawAnimatronics(g2, freddyInOffice, bonnieInOffice, Position.OFFICE);
         drawAnimatronic(g2, ghostInOffice, GamePanel.ghost, Position.OFFICE);
         drawDoors(g2);
+    }
+
+    static public void game(Graphics2D g2) {
+        if (GamePanel.inTablet) {
+            drawCameras(g2);
+        }
+        else {
+            drawOffice(g2);
+            drawPower(g2, GamePanel.power);
+        }
+        drawTime(g2, GamePanel.time);
+        drawJumpscares(g2, 100);
+    }
+
+    static public void menu(Graphics2D g2) {
+        g2.drawImage(menuImage, 0, 0, null);
+    }
+
+    static public void lose(Graphics2D g2) {
+        g2.drawImage(loseImage, 0, 0,null);
+    }
+
+    static public void win(Graphics2D g2) {
+        g2.drawImage(winImage, 0, 0, null);
     }
 
     public static void loadImages() {
@@ -98,9 +155,13 @@ public class Draw {
             cam4 = ImageIO.read(new File("assets\\cameras\\cam4.PNG"));
             cam5 = ImageIO.read(new File("assets\\cameras\\cam5.PNG"));
             cam6 = ImageIO.read(new File("assets\\cameras\\cam6.PNG"));
-            jumpscareFreddy = ImageIO.read(new File("assets\\freddy\\jumpscare.JPG"));;
+            jumpscareFreddy = ImageIO.read(new File("assets\\freddy\\jumpscare.JPG"));
             jumpscareBonnie = ImageIO.read(new File("assets\\bonnie\\jumpscare.JPG"));
             jumpscareGhost = ImageIO.read(new File("assets\\ghost\\jumpscare.PNG"));
+            menuImage = ImageIO.read(new File("assets\\menu\\menu.JPG"));
+            loseImage = ImageIO.read(new File("assets\\menu\\lose.JPG"));
+            winImage = ImageIO.read(new File("assets\\menu\\win.JPG"));
+
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -108,58 +169,62 @@ public class Draw {
 
     public static void drawDoors(Graphics2D g2) {
         if (GamePanel.leftDoorClosed) {
-            g2.drawImage(leftDoorImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+            g2.drawImage(leftDoorImage, 0, 0, null);
         }
         if (GamePanel.rightDoorClosed) {
-            g2.drawImage(rightDoorImage, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+            g2.drawImage(rightDoorImage, 0, 0, null);
         }
     }
 
-    static public void drawAnimatronics(Graphics2D g2, BufferedImage placeFreddy, BufferedImage placeBonnie, Position position) {
+    static public void drawAnimatronics(Graphics2D g2, BufferedImage placeFreddy,
+                                        BufferedImage placeBonnie, Position position) {
         if (GamePanel.freddy.position == position) {
-            g2.drawImage(placeFreddy, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+            g2.drawImage(placeFreddy, 0, 0, null);
         }
         if (GamePanel.bonnie.position == position) {
-            g2.drawImage(placeBonnie, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+            g2.drawImage(placeBonnie, 0, 0, null);
         }
     }
 
-    static public void drawAnimatronic(Graphics2D g2, BufferedImage place, Animatronic animatronic, Position position) {
+    static public void drawAnimatronic(Graphics2D g2, BufferedImage place,
+                                       Animatronic animatronic, Position position) {
         if (animatronic.position == position) {
-            g2.drawImage(place, 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, null);
+            g2.drawImage(place, 0, 0, null);
         }
     }
 
     static public void drawMap(Graphics2D g2, BufferedImage cam) {
         int x = -90, y = 460;
-        g2.drawImage(mapImage, x, y, 650, 470, null);
-        g2.drawImage(cam, x, y, 650, 470, null);
+        g2.drawImage(mapImage, x, y, null);
+        g2.drawImage(cam, x, y, null);
     }
 
-    static public void jumpscare(Graphics2D g2, Animatronic animatronic, BufferedImage image, int value) {
+    static public void jumpscare(Graphics2D g2, Animatronic animatronic,
+                                 BufferedImage image, int value) {
         if (animatronic.position == Position.JUMPSCARE) {
-            Random rand = new Random();
-            int randInt1 = rand.nextInt(-value, value),
-                    randInt2 = rand.nextInt(-value, value),
-                    startPoint = rand.nextInt(-value, 0);
-            g2.drawImage(image, startPoint, startPoint, SCREEN_WIDTH + value * 3 + randInt1, SCREEN_HEIGHT + value * 2 + randInt2, null);
+            int randInt1 = RANDOM.nextInt(-value, value),
+                    randInt2 = RANDOM.nextInt(-value, value),
+                    startPoint = RANDOM.nextInt(-value, 0);
+            g2.drawImage(image, startPoint, startPoint,
+                    SCREEN_WIDTH + value * 3 + randInt1,
+                    SCREEN_HEIGHT + value * 2 + randInt2, null);
         }
     }
-    static public void jumpscares(Graphics2D g2, int value) {
+    static public void drawJumpscares(Graphics2D g2, int value) {
         jumpscare(g2, GamePanel.bonnie, jumpscareBonnie, value - 70);
         jumpscare(g2, GamePanel.freddy, jumpscareFreddy, value);
         jumpscare(g2, GamePanel.ghost, jumpscareGhost, value - 95);
     }
 
-    static public void time(Graphics2D g2, String string) {
+    static public void drawTime(Graphics2D g2, String string) {
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Consolas", Font.BOLD, 70));
         g2.drawString(string, 1100,58);
     }
 
-    static public void power(Graphics2D g2, int power) {
+    static public void drawPower(Graphics2D g2, int power) {
         g2.setColor(Color.WHITE);
         g2.setFont(new Font("Consolas", Font.BOLD, 70));
-        g2.drawString("Power:" + power + "%", 3, 890);
+        g2.drawString(String.format("Power:%s%%", power), 3, 890);
     }
 }

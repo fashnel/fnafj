@@ -3,18 +3,19 @@ package entity;
 import main.GamePanel;
 
 public class Ghost extends Animatronic {
-    double CHANCE = 0.04;
+    double CHANCE = 0.1,
+            chance;;
     boolean playerSeenGhost = false;
 
     public void update(long now) {
         if (now < timeToNextMove) {
             return;
         }
-        CHANCE = updateChance(now, CHANCE, 0.03);
+        CHANCE = updateChanceEveryHour(now, CHANCE, 0.05);
         if (timeToNextMove != 1)  {
             timeToNextMove = now + randomDelay(2000, 3000);
         }
-        double chance = Math.random();
+        chance = Math.random();
 
         switch (position) {
             case SCENE:
@@ -36,16 +37,20 @@ public class Ghost extends Animatronic {
                 else {
                     if (timeToNextMove == 1) {
                         playerSeenGhost = true;
-                        timeToNextMove = now + 1300;
+                        timeToNextMove = now + 1000;
+                    }
+                    else if ((GamePanel.bonnie.position == Position.JUMPSCARE) ||
+                            (GamePanel.freddy.position == Position.JUMPSCARE)) {
+                        position = Position.SCENE;
                     }
                     else {
+                        position = Position.JUMPSCARE;
                         if (GamePanel.office.powerPercent < 10) {
                             GamePanel.office.powerPercent = 0;
                         }
                         else {
                             GamePanel.office.powerPercent -= 10;
                         }
-                        position = Position.JUMPSCARE;
                     }
                 }
                 break;

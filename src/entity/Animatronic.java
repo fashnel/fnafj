@@ -9,11 +9,11 @@ public class Animatronic {
         return minMs + (long) (Math.random() * (maxMs - minMs));
     }
 
-    public double updateChance(long now, double chance, double plus) {
+    public double updateChanceEveryHour(long now, double chance, double up) {
         if (now < timeToNextHour) {
             return chance;
         }
-        timeToNextHour = now + 30000;
-        return chance + plus;
+        timeToNextHour = now + 25000;
+        return chance + up;
     }
 }
