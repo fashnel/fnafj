@@ -13,7 +13,7 @@ public class Freddy extends Animatronic {
             return;
         }
         CONST_CHANCE = updateChanceEveryHour(now, CONST_CHANCE, 0.1);
-        if (GamePanel.tablet.position == position && position != Position.SCENE) {
+        if (GamePanel.camera == position && position != Position.SCENE) {
             chanceForMove = CONST_CHANCE / 2;
             timeToNextMove = now + randomDelay(4000, 6000);
         }
@@ -22,7 +22,6 @@ public class Freddy extends Animatronic {
             timeToNextMove = now + randomDelay(500, 1000);
         }
         chance = Math.random();
-
         switch (position) {
             case SCENE, STAFF_ONLY, HALL, WATER_CLOSET:
                 if (chance < chanceForMove) {

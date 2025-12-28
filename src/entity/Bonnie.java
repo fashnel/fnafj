@@ -12,7 +12,7 @@ public class Bonnie extends Animatronic {
             return;
         }
         CONST_CHANCE = updateChanceEveryHour(now, CONST_CHANCE, 0.1);
-        if (GamePanel.tablet.position == position) {
+        if (GamePanel.camera == position) {
             chanceForMove = CONST_CHANCE * 1.5;
             timeToNextMove = now + randomDelay(1000, 2000);
         }

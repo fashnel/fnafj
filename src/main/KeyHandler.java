@@ -1,12 +1,12 @@
 package main;
 
+import entity.Position;
+
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
 public class KeyHandler implements KeyListener {
-    public boolean leftDoor, rightDoor;
-    public boolean startGame, tablet, scene, waterCloset, staffOnly,
-            hall, leftHall, rightHall;;
+    public boolean leftDoor, rightDoor, tablet;
 
     @Override
     public void keyTyped(KeyEvent e) {
@@ -16,29 +16,63 @@ public class KeyHandler implements KeyListener {
     public void keyPressed(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if (code == KeyEvent.VK_ENTER) {
-            startGame = true;
+        switch (GamePanel.gameState) {
+            case GAME_OVER, WIN:
+                if (code == KeyEvent.VK_ENTER) {
+                    GamePanel.gameState = GameState.MENU;
+                }
+                break;
+
+            case MENU:
+                if (code == KeyEvent.VK_ENTER) {
+                    GamePanel.gameState = GameState.GAME;
+                }
+                break;
         }
-        scene = code == KeyEvent.VK_1;
-        hall = code == KeyEvent.VK_3;
-        leftHall = code == KeyEvent.VK_5;
-        rightHall = code == KeyEvent.VK_6;
-        waterCloset = code == KeyEvent.VK_4;
-        staffOnly = code == KeyEvent.VK_2;
+
+        if (GamePanel.inTablet) {
+            switch (code) {
+                case KeyEvent.VK_1:
+                    GamePanel.camera = Position.SCENE;
+                    break;
+
+                case KeyEvent.VK_2:
+                    GamePanel.camera = Position.STAFF_ONLY;
+                    break;
+
+                case KeyEvent.VK_3:
+                    GamePanel.camera = Position.HALL;
+                    break;
+
+                case KeyEvent.VK_4:
+                    GamePanel.camera = Position.WATER_CLOSET;
+                    break;
+
+                case KeyEvent.VK_5:
+                    GamePanel.camera = Position.LEFT_HALL;
+                    break;
+
+                case KeyEvent.VK_6:
+                    GamePanel.camera = Position.RIGHT_HALL;
+                    break;
+            }
+        }
     }
 
     @Override
     public void keyReleased(KeyEvent e) {
         int code = e.getKeyCode();
 
-        if (code == KeyEvent.VK_SPACE) {
-            tablet = true;
-        }
-        if (code == KeyEvent.VK_Q) {
-            leftDoor = true;
-        }
-        if (code == KeyEvent.VK_E) {
-            rightDoor = true;
+        if (GamePanel.gameState == GameState.GAME) {
+            if (code == KeyEvent.VK_SPACE) {
+                tablet = true;
+            }
+            if (code == KeyEvent.VK_Q) {
+                leftDoor = true;
+            }
+            if (code == KeyEvent.VK_E) {
+                rightDoor = true;
+            }
         }
     }
 }

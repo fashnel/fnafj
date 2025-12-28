@@ -16,9 +16,9 @@ public class GamePanel extends JPanel implements Runnable {
     public static Freddy freddy;
     public static Ghost ghost;
     public static Office office;
-    public static Tablet tablet;
     public static GameState gameState = GameState.MENU;
-    public static String time = "";
+    public static Position camera = Position.SCENE;
+    public static String time;
     public static int power;
 
     public static boolean inTablet,
@@ -45,36 +45,45 @@ public class GamePanel extends JPanel implements Runnable {
         if (inTablet) {
             keyH.rightDoor = false;
             keyH.leftDoor = false;
-            tablet.update(keyH);
         }
-        else {
-            if (keyH.leftDoor) {
-                leftDoorClosed = !leftDoorClosed;
-                keyH.leftDoor = false;
-            }
-            if (keyH.rightDoor) {
-                rightDoorClosed = !rightDoorClosed;
-                keyH.rightDoor = false;
-            }
-        }
-        keyH.startGame = false;
-    }
-    public void inputInMenu() {
-        if (keyH.startGame) {
-            startNewGame();
-            gameState = GameState.GAME;
-            keyH.startGame = false;
-            keyH.tablet = false;
+        if (keyH.leftDoor) {
+            leftDoorClosed = !leftDoorClosed;
             keyH.leftDoor = false;
+        }
+        if (keyH.rightDoor) {
+            rightDoorClosed = !rightDoorClosed;
             keyH.rightDoor = false;
+        }
+
+    }
+
+    public void updateEntity() {
+        long now = System.currentTimeMillis();
+        bonnie.update(now);
+        freddy.update(now);
+        ghost.update(now);
+        time = office.time(now);
+        power = office.power(now);
+    }
+
+    public void updateGameStates() {
+        if (time.trim().equals("6AM")) {
+            gameState = GameState.WIN;
+        }
+        if (power == 0) {
+            gameState = GameState.GAME_OVER;
         }
     }
 
-    public void inputInLoseWinScreen() {
-        if (keyH.startGame) {
-            gameState = GameState.MENU;
-            keyH.startGame = false;
-        }
+    public void startNewGame() {
+        inTablet = false;
+        leftDoorClosed = false;
+        rightDoorClosed = false;
+        freddy = new Freddy();
+        bonnie = new Bonnie();
+        ghost = new Ghost();
+        office = new Office();
+        camera = Position.SCENE;
     }
 
     @Override
@@ -106,38 +115,14 @@ public class GamePanel extends JPanel implements Runnable {
     public void update() {
         switch (gameState) {
             case GAME:
-                long now = System.currentTimeMillis();
-                bonnie.update(now);
-                freddy.update(now);
-                ghost.update(now);
-                time = office.time(now);
-                power = office.power(now);
+                updateEntity();
+                updateGameStates();
                 inputInGame();
-                if (time.trim().equals("6AM")) {
-                    gameState = GameState.WIN;
-                }
-                if (power == 0) {
-                    gameState = GameState.GAME_OVER;
-                }
                 break;
             case MENU:
-                inputInMenu();
-                break;
-            case WIN, GAME_OVER:
-                inputInLoseWinScreen();
+                startNewGame();
                 break;
         }
-    }
-
-    public void startNewGame() {
-        inTablet = false;
-        leftDoorClosed = false;
-        rightDoorClosed = false;
-        freddy = new Freddy();
-        bonnie = new Bonnie();
-        tablet = new Tablet();
-        ghost = new Ghost();
-        office = new Office();
     }
 
     public void paintComponent(Graphics g) {
