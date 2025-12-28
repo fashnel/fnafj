@@ -2,8 +2,11 @@ package main;
 
 import entity.Position;
 
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+
+
 
 public class KeyHandler implements KeyListener {
     public boolean leftDoor, rightDoor, tablet;
@@ -19,13 +22,16 @@ public class KeyHandler implements KeyListener {
         switch (GamePanel.gameState) {
             case GAME_OVER, WIN:
                 if (code == KeyEvent.VK_ENTER) {
-                    GamePanel.gameState = GameState.MENU;
+                    Draw.enterColor = Color.YELLOW;
                 }
                 break;
 
             case MENU:
                 if (code == KeyEvent.VK_ENTER) {
-                    GamePanel.gameState = GameState.GAME;
+                    Draw.enterColor = Color.YELLOW;
+                }
+                if (code == KeyEvent.VK_ESCAPE) {
+                    Draw.escColor = Color.YELLOW;
                 }
                 break;
         }
@@ -73,6 +79,31 @@ public class KeyHandler implements KeyListener {
             if (code == KeyEvent.VK_E) {
                 rightDoor = true;
             }
+        }
+
+        switch (GamePanel.gameState) {
+            case GAME_OVER, WIN:
+                if (code == KeyEvent.VK_ENTER) {
+                    Draw.enterColor = Color.WHITE;
+                    GamePanel.gameState = GameState.MENU;
+                }
+                break;
+
+            case MENU:
+                if (code == KeyEvent.VK_ENTER) {
+                    Draw.enterColor = Color.WHITE;
+                    GamePanel.gameState = GameState.GAME;
+                }
+                if (code == KeyEvent.VK_ESCAPE) {
+                    System.exit(0);
+                }
+                break;
+
+            case GAME:
+                if (code == KeyEvent.VK_ESCAPE) {
+                    GamePanel.gameState = GameState.MENU;
+                }
+                break;
         }
     }
 }

@@ -8,6 +8,7 @@ import java.awt.*;
 
 public class GamePanel extends JPanel implements Runnable {
     public static final int SCREEN_WIDTH = 1300, SCREEN_HEIGHT = 900;
+    public static final int oneHourInSeconds = 25000;
     final int FPS = 30;
 
     Thread gameThread;
@@ -30,6 +31,7 @@ public class GamePanel extends JPanel implements Runnable {
         this.addKeyListener(keyH);
         this.setFocusable(true);
         Draw.loadImages();
+        Draw.loadFonts();
     }
 
     public void startGameThread() {
@@ -137,10 +139,10 @@ public class GamePanel extends JPanel implements Runnable {
                 Draw.menu(g2);
                 break;
             case GAME_OVER:
-                Draw.lose(g2);
+                Draw.endScreen(g2, "game_over");
                 break;
             case WIN:
-                Draw.win(g2);
+                Draw.endScreen(g2, "win");
                 break;
         }
     }

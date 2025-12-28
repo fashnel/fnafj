@@ -13,7 +13,7 @@ public class Office {
         if (now < timeToNextHour) {
             return outHour;
         }
-        timeToNextHour = now + 25000;
+        timeToNextHour = now + GamePanel.oneHourInSeconds;
 
         hour = String.format("%3s", numberHour % 12 + 1);
         outHour = hour + AmPm;

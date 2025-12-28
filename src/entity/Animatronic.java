@@ -1,5 +1,7 @@
 package entity;
 
+import static main.GamePanel.oneHourInSeconds;
+
 public class Animatronic {
     public Position position = Position.SCENE;
     long timeToNextMove;
@@ -13,7 +15,7 @@ public class Animatronic {
         if (now < timeToNextHour) {
             return chance;
         }
-        timeToNextHour = now + 25000;
+        timeToNextHour = now + oneHourInSeconds;
         return chance + up;
     }
 }

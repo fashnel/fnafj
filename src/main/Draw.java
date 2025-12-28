@@ -8,12 +8,15 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Random;
 
 public class Draw {
     private static final int SCREEN_WIDTH = GamePanel.SCREEN_WIDTH,
             SCREEN_HEIGHT = GamePanel.SCREEN_HEIGHT;
     private static final Random RANDOM = new Random();
+    private static Font GAME_FONT;
+    public static Color enterColor = Color.WHITE, escColor = Color.WHITE;
 
     static BufferedImage officeImage, leftDoorImage, rightDoorImage, mapImage,
             sceneImage, hallImage, waterClosetImage, leftHallImage, rightHallImage, staffOnlyImage,
@@ -27,42 +30,40 @@ public class Draw {
     private static void drawCameras(Graphics2D g2) {
         switch (GamePanel.camera) {
             case SCENE:
-                drawCamera(g2, sceneImage);
-                drawAnimatronics(g2, freddyOnScene, bonnieOnScene, Position.SCENE);
-                drawMap(g2, cam1);
+                drawCamera(g2, sceneImage, cam1,
+                        freddyOnScene, bonnieOnScene);
                 break;
+
             case STAFF_ONLY:
-                drawCamera(g2, staffOnlyImage);
-                drawAnimatronic(g2, freddyInStaffOnly, GamePanel.freddy, Position.STAFF_ONLY);
-                drawMap(g2, cam2);
+                drawCamera(g2, staffOnlyImage, cam2,
+                        freddyInStaffOnly, null);
                 break;
+
             case HALL:
-                drawCamera(g2, hallImage);
-                drawAnimatronics(g2, freddyInHall, bonnieInHall, Position.HALL);
-                drawMap(g2, cam3);
+                drawCamera(g2, hallImage, cam3,
+                        freddyInHall, bonnieInHall);
                 break;
+
             case WATER_CLOSET:
-                drawCamera(g2, waterClosetImage);
-                drawAnimatronic(g2, freddyInWaterCloset, GamePanel.freddy, Position.WATER_CLOSET);
-                drawMap(g2, cam4);
+                drawCamera(g2, waterClosetImage, cam4,
+                        freddyInWaterCloset, null);
                 break;
+
             case LEFT_HALL:
-                drawCamera(g2, leftHallImage);
-                drawAnimatronic(g2, bonnieInLeftHall, GamePanel.bonnie, Position.LEFT_HALL);
-                drawMap(g2, cam5);
+                drawCamera(g2, leftHallImage, cam5,
+                        null, bonnieInLeftHall);
                 break;
+
             case RIGHT_HALL:
-                drawCamera(g2, rightHallImage);
-                drawAnimatronic(g2, freddyInRightHall, GamePanel.freddy, Position.RIGHT_HALL);
-                drawMap(g2, cam6);
+                drawCamera(g2, rightHallImage, cam6,
+                        freddyInRightHall, null);
                 break;
         }
     }
 
     private static void drawOffice(Graphics2D g2) {
         g2.drawImage(officeImage, 0, 0, null);
-        drawAnimatronics(g2, freddyInOffice, bonnieInOffice, Position.OFFICE);
-        drawAnimatronic(g2, ghostInOffice, GamePanel.ghost, Position.OFFICE);
+        drawAnimatronicsInOffice(g2, freddyInOffice, bonnieInOffice, ghostInOffice);
         drawDoors(g2);
     }
 
@@ -80,14 +81,18 @@ public class Draw {
 
     public static void menu(Graphics2D g2) {
         g2.drawImage(menuImage, 0, 0, null);
+
+        drawString(g2, "Enter to start", 78, 700, enterColor, 60);
+        drawString(g2, "Esc to exit", 78, 800, escColor, 60);
     }
 
-    public static void lose(Graphics2D g2) {
-        g2.drawImage(loseImage, 0, 0,null);
-    }
-
-    public static void win(Graphics2D g2) {
-        g2.drawImage(winImage, 0, 0, null);
+    public static void endScreen(Graphics2D g2, String picture) {
+        if (picture.equals("win")) {
+            g2.drawImage(winImage, 0, 0, null);
+        } else {
+            g2.drawImage(loseImage, 0, 0,null);
+        }
+        drawString(g2, "Enter to continue", 150, 800, enterColor, 60);
     }
 
     public static void loadImages() {
@@ -130,7 +135,24 @@ public class Draw {
         }
     }
 
-    private static void drawCamera(Graphics2D g2, BufferedImage camera) {
+    public static void loadFonts() {
+        try {
+            InputStream loadFont = Draw.class.getResourceAsStream("/main/fnaf_font.ttf");
+            Font baseFont = Font.createFont(Font.TRUETYPE_FONT, loadFont);
+            GAME_FONT = baseFont.deriveFont(Font.PLAIN, 70);
+        } catch (IOException | FontFormatException e) {
+            GAME_FONT = new Font("Concolas", Font.PLAIN, 70);
+        }
+    }
+
+    private static void drawCamera(Graphics2D g2, BufferedImage place, BufferedImage cam,
+                                   BufferedImage freddyImage, BufferedImage bonnieImage) {
+        drawPlace(g2, place);
+        drawAnimatronics(g2, freddyImage, bonnieImage, GamePanel.camera);
+        drawMap(g2, cam);
+    }
+
+    private static void drawPlace(Graphics2D g2, BufferedImage camera) {
         g2.drawImage(camera, 0, 0, null);
     }
 
@@ -143,20 +165,28 @@ public class Draw {
         }
     }
 
-    private static void drawAnimatronics(Graphics2D g2, BufferedImage placeFreddy,
-                                        BufferedImage placeBonnie, Position position) {
-        if (GamePanel.freddy.position == position) {
-            g2.drawImage(placeFreddy, 0, 0, null);
+    private static void drawAnimatronicsInOffice(Graphics2D g2,
+                                                 BufferedImage freddyImage,
+                                                 BufferedImage bonnieImage,
+                                                 BufferedImage ghostImage) {
+        if (GamePanel.freddy.position == Position.OFFICE) {
+            g2.drawImage(freddyImage, 0, 0, null);
         }
-        if (GamePanel.bonnie.position == position) {
-            g2.drawImage(placeBonnie, 0, 0, null);
+        if (GamePanel.bonnie.position == Position.OFFICE) {
+            g2.drawImage(bonnieImage, 0, 0, null);
+        }
+        if (GamePanel.ghost.position == Position.OFFICE) {
+            g2.drawImage(ghostImage, 0, 0, null);
         }
     }
 
-    private static void drawAnimatronic(Graphics2D g2, BufferedImage place,
-                                       Animatronic animatronic, Position position) {
-        if (animatronic.position == position) {
-            g2.drawImage(place, 0, 0, null);
+    private static void drawAnimatronics(Graphics2D g2, BufferedImage placeFreddy,
+                                        BufferedImage placeBonnie, Position position) {
+        if (GamePanel.freddy.position == position && placeFreddy != null) {
+            g2.drawImage(placeFreddy, 0, 0, null);
+        }
+        if (GamePanel.bonnie.position == position && placeBonnie != null) {
+            g2.drawImage(placeBonnie, 0, 0, null);
         }
     }
 
@@ -177,6 +207,7 @@ public class Draw {
                     SCREEN_HEIGHT + value * 2 + randInt2, null);
         }
     }
+
     private static void drawJumpscares(Graphics2D g2) {
         jumpscare(g2, GamePanel.bonnie, jumpscareBonnie, 30);
         jumpscare(g2, GamePanel.freddy, jumpscareFreddy, 100);
@@ -184,14 +215,16 @@ public class Draw {
     }
 
     private static void drawTime(Graphics2D g2, String string) {
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Consolas", Font.BOLD, 70));
-        g2.drawString(string, 1100,58);
+        drawString(g2, string, 1090, 50, Color.WHITE, 40);
     }
 
     private static void drawPower(Graphics2D g2, int power) {
-        g2.setColor(Color.WHITE);
-        g2.setFont(new Font("Consolas", Font.BOLD, 70));
-        g2.drawString(String.format("Power:%s%%", power), 3, 890);
+        drawString(g2, String.format("Power:%s%%", power), 10, 890, Color.WHITE, 40);
+    }
+
+    private static void drawString(Graphics2D g2, String string, int x, int y, Color color, int size) {
+        g2.setColor(color);
+        g2.setFont(Draw.GAME_FONT.deriveFont(Font.PLAIN, size));
+        g2.drawString(string, x, y);
     }
 }
