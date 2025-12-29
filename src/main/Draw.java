@@ -63,7 +63,7 @@ public class Draw {
 
     private static void drawOffice(Graphics2D g2) {
         g2.drawImage(officeImage, 0, 0, null);
-        drawAnimatronicsInOffice(g2, freddyInOffice, bonnieInOffice, ghostInOffice);
+        drawAnimatronicsInOffice(g2);
         drawDoors(g2);
     }
 
@@ -165,18 +165,15 @@ public class Draw {
         }
     }
 
-    private static void drawAnimatronicsInOffice(Graphics2D g2,
-                                                 BufferedImage freddyImage,
-                                                 BufferedImage bonnieImage,
-                                                 BufferedImage ghostImage) {
+    private static void drawAnimatronicsInOffice(Graphics2D g2) {
         if (GamePanel.freddy.position == Position.OFFICE) {
-            g2.drawImage(freddyImage, 0, 0, null);
+            g2.drawImage(freddyInOffice, 0, 0, null);
         }
         if (GamePanel.bonnie.position == Position.OFFICE) {
-            g2.drawImage(bonnieImage, 0, 0, null);
+            g2.drawImage(bonnieInOffice, 0, 0, null);
         }
         if (GamePanel.ghost.position == Position.OFFICE) {
-            g2.drawImage(ghostImage, 0, 0, null);
+            g2.drawImage(ghostInOffice, 0, 0, null);
         }
     }
 

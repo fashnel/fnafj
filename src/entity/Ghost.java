@@ -13,7 +13,7 @@ public class Ghost extends Animatronic {
         }
         CHANCE = updateChanceEveryHour(now, CHANCE, 0.05);
         if (timeToNextMove != 1)  {
-            timeToNextMove = now + randomDelay(2000, 3000);
+            timeToNextMove = now + randomDelay(5000, 6000);
         }
         chance = Math.random();
 
@@ -45,16 +45,17 @@ public class Ghost extends Animatronic {
                     }
                     else {
                         position = Position.JUMPSCARE;
-                        if (GamePanel.office.powerPercent < 10) {
-                            GamePanel.office.powerPercent = 0;
-                        }
-                        else {
-                            GamePanel.office.powerPercent -= 10;
-                        }
+                        timeToNextMove = now + 2500;
                     }
                 }
                 break;
             case JUMPSCARE:
+                if (GamePanel.office.powerPercent < 10) {
+                    GamePanel.office.powerPercent = 0;
+                }
+                else {
+                    GamePanel.office.powerPercent -= 10;
+                }
                 position = Position.SCENE;
         }
     }

@@ -3,7 +3,7 @@ package entity;
 import main.GamePanel;
 import main.GameState;
 
-public class Freddy extends Animatronic {
+public class  Freddy extends Animatronic {
     double CONST_CHANCE = 0.4,
             chanceForMove,
             chance;
