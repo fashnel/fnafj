@@ -4,7 +4,7 @@ import main.GamePanel;
 
 public class Ghost extends Animatronic {
     double CHANCE = 0.1,
-            chance;;
+            chance;
     boolean playerSeenGhost = false;
 
     public void update(long now) {
@@ -19,7 +19,7 @@ public class Ghost extends Animatronic {
 
         switch (position) {
             case SCENE:
-                if (chance < CHANCE && GamePanel.inTablet) {
+                if (chance < CHANCE) {
                     position = Position.OFFICE;
                     timeToNextMove = 1;
                 }
