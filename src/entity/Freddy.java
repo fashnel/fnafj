@@ -4,7 +4,7 @@ import main.GamePanel;
 import main.GameState;
 
 public class Freddy extends Animatronic {
-    double CONST_CHANCE = 0.4,
+    double CONST_CHANCE = -0.1,
             chanceForMove,
             chance;
 

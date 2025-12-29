@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="fnaj:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/fnaj_jar</output-path>
+    <root id="archive" name="fnaj.jar">
+      <element id="module-output" name="fnaj" />
+    </root>
+  </artifact>
+</component>

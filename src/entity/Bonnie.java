@@ -4,7 +4,7 @@ import main.GamePanel;
 import main.GameState;
 
 public class Bonnie extends Animatronic {
-    double CONST_CHANCE = 0.1,
+    double CONST_CHANCE = -0.1,
             chanceForMove, chance;
 
     public void update(long now) {

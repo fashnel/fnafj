@@ -3,7 +3,7 @@ package entity;
 import main.GamePanel;
 
 public class Ghost extends Animatronic {
-    double CHANCE = 0.1,
+    double CHANCE = 1,
             chance;;
     boolean playerSeenGhost = false;
 
@@ -37,7 +37,7 @@ public class Ghost extends Animatronic {
                 else {
                     if (timeToNextMove == 1) {
                         playerSeenGhost = true;
-                        timeToNextMove = now + 1000;
+                        timeToNextMove = now + 10000;
                     }
                     else if ((GamePanel.bonnie.position == Position.JUMPSCARE) ||
                             (GamePanel.freddy.position == Position.JUMPSCARE)) {
