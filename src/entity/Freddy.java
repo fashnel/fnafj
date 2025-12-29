@@ -31,7 +31,7 @@ public class Freddy extends Animatronic {
             case RIGHT_HALL:
                 if (chance < chanceForMove) {
                     position = Position.OFFICE;
-                    timeToNextMove = now + randomDelay(6000, 8000);
+                    timeToNextMove = now + randomDelay(3000, 8000);
                 }
                 break;
             case OFFICE:
