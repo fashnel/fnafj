@@ -31,7 +31,7 @@ public class Draw {
         switch (GamePanel.camera) {
             case SCENE:
                 drawCamera(g2, sceneImage, cam1,
-                        null, bonnieOnScene);
+                        freddyOnScene, bonnieOnScene);
                 break;
 
             case STAFF_ONLY:
@@ -149,7 +149,7 @@ public class Draw {
                                    BufferedImage freddyImage, BufferedImage bonnieImage) {
         drawPlace(g2, place);
         drawAnimatronics(g2, freddyImage, bonnieImage, GamePanel.camera);
-//        drawMap(g2, cam);
+        drawMap(g2, cam);
     }
 
     private static void drawPlace(Graphics2D g2, BufferedImage camera) {
