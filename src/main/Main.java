@@ -5,7 +5,7 @@ import javax.swing.*;
 class Main {
     public static void main(String[] args) {
         JFrame window = new JFrame();
-        window.setTitle("Onw Shift in Storage");
+        window.setTitle("One Shift in Storage");
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
 
